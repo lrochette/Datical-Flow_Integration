@@ -1,0 +1,12 @@
+<plugin>
+  <author>L. Rochette</author>
+  <authorUrl>mailto:lrochette@datical.com</authorUrl>
+  <category>Database</category>
+  <commander-version min="7.0" />
+  <depends>EC-Core</depends>
+  <description>ElectricFlow integration with DaticalDB - main project</description>
+  <help>help.xml</help>
+  <key>DaticalDemo</key>
+  <label>DaticalDemo</label>
+  <version>1.0.0.15</version>
+</plugin>
