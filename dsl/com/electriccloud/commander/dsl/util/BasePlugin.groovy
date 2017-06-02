@@ -84,8 +84,22 @@ abstract class BasePlugin extends DslDelegatingScript {
 		}
 	}
 
+  def loadApplications(String pluginDir, String pluginKey, String pluginName) {
+		// Loop over the sub-directories in the applications directory
+		// and evaluate application if a application.groovy file exists
+		File pipesDir = new File(pluginDir, 'dsl/applications')
+		pipesDir.eachDir {
+			it.eachFile FileType.FILES, {
+				if (it.name == 'application.groovy') {
+					loadGroovy(pluginDir, pluginKey, pluginName, it.absolutePath)
+				}
+			}
+		}
+	}
+
   def loadDslCode(String pluginDir, String pluginKey, String pluginName) {
     loadProcedures(pluginDir, pluginKey, pluginName)
+    loadApplications(pluginDir, pluginKey, pluginName)
     loadPipelines(pluginDir, pluginKey, pluginName)
     // plugin boiler-plate
 		setupCustomEditorData(pluginName)
