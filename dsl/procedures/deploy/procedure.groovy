@@ -6,15 +6,13 @@ procedure 'deploy',
     description: 'The name of the Deployment Step in DaticalDB',
     required: '1',
     type: 'entry'
+  formalParameter 'daticalResource',
+      description: 'The name of the Resource where DaticalDB runs',
+      required: '1',
+      type: 'entry'
 
     step 'deploy',
-      subprocedure: 'Deploy',
-      subproject: '/plugins/EC-Datical/project',
-      actualParameter:[
-        'daticalDeploymentStep': '$[daticalStep]',
-        'daticalInstallPath': 'C:\\Users\\TestUser1\\DaticalDB\\repl',
-        'daticalPluginsPath': 'C:\\Users\\TestUser1\\DaticalDB\\plugins',
-        'daticalProjectPath': 'C:\\Users\\TestUser1\\git\\ECloudIntegration\\ECloudIntegration',
-        'resource': 'datical'
-      ]
+      command:new File(pluginDir + "/dsl/procedures/deploy/steps/deploy.pl").text,
+      shell: 'ec-perl',
+      resourceName: '$[daticalResource]'
 }
