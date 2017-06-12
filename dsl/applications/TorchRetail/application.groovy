@@ -42,6 +42,45 @@ application 'Torch Retail', {
               targetProcessStepName: 'forecast',
               branchType: 'ALWAYS'
             }
+
+            process 'deploy',
+              description: 'Deploy the DB changeset',
+              processType: 'OTHER',
+              {
+                processStep 'retrieve',
+                  errorHandling:'abortJob',
+                  processStepType: 'component',
+                  subprocedure: 'Retrieve'
+                  subproject: '/plugins/EC-Artifact/project',
+                  actualParameter: [
+                    'artifactName': '$[/myComponent/ec_content_details/artifactName]',
+                    'artifactVersionLocationProperty': '$[/myComponent/ec_content_details/artifactVersionLocationProperty]',
+                    'filterList': '$[/myComponent/ec_content_details/filterList]',
+                    'overwrite': '$[/myComponent/ec_content_details/overwrite]',
+                    'retrieveToDirectory': '$[/myComponent/ec_content_details/retrieveToDirectory]',
+                    'versionRange': '$[/myJob/ec_daticalPackage-version]'
+                  ]
+
+
+                processStep 'deploy',
+                  description: 'run the deploy operation',
+                  errorHandling: 'failProcedure',
+                  processStepType: 'plugin',
+                  subprocedure: 'Deploy',
+                  subproject: '/plugins/EC-Datical/project',
+                  actualParameter: [
+                    'daticalDeploymentStep': '$[/myStage/stageName]',
+                    'daticalInstallPath': '$[/myProject/Datical/installationDir]\\repl',
+                    'daticalPluginsPath': '$[/myProject/Datical/installationDir]\\plugins',
+                    'daticalProjectPath': '$[/myProject/Datical/daticalProjectName]',
+                    'resource': '$[/myProject/Datical/resource]'
+                  ]
+
+                processDependency 'retrieve',
+                  targetProcessStepName: 'forecast',
+                  branchType: 'ALWAYS'
+                }
+
       }
 
       // Custom properties

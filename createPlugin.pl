@@ -10,7 +10,7 @@ use ElectricCommander ();
 $| = 1;
 my $ec = new ElectricCommander->new();
 
-my $pluginVersion = "1.0.0";
+my $pluginVersion = "1.1.0";
 my $pluginKey = "DaticalDemo";
 my $description = "ElectricFlow integration with DaticalDB - main project";
 GetOptions ("version=s" => \$pluginVersion,
